@@ -1,95 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1">
-    <title>eg-test</title>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.24/webcomponents.min.js'></script>
-    <script src="/static/js/perspective.view.js"></script>
-    <script src="/static/js/hypergrid.plugin.js"></script>
-    <script src="/static/js/highcharts.plugin.js"></script>
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <style>
-        body{
-            font-family: 'Roboto', sans-serif;
-            margin:0px;
-            width:100%;
-        }
-
-        div.main{
-            height:100%;
-            width:100%;
-
-            display:flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        div.main div.third{
-            position:relative;
-            display:flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom:20px;
-            height:30vh;
-            width:60%;
-            margin-left:50px;
-        }
-        div.main div.center {
-            width:40%;
-        }
-
-        perspective-viewer#one,
-        perspective-viewer#two, 
-        perspective-viewer#three {
-            position:absolute;
-            top:0;
-            left:0;
-            right:0;
-            bottom:0;
-            height:100%;
-            width:100%;
-        }
-
-        perspective-viewer div#app, 
-        perspective-viewer div#pivot_chart{
-            background-color:transparent;
-        }
-
-    </style>
+  <title>Live-PnL-Test</title>
+  <script type="text/javascript" src="static/js/bundle.js"></script>
 </head>
 <body>
-    <div class="main">
-        <div class="third center">
-            <perspective-viewer id='one' columns="[&quot;shares&quot;,&quot;px&quot;,&quot;apx&quot;,&quot;pnl&quot;,&quot;unrealized&quot;,&quot;realized&quot;]"></perspective-viewer>
-        </div>
-        <div class="third">
-            <perspective-viewer id='two' row-pivots="[&quot;symbol&quot;]" column-pivots="[]" columns="[&quot;unrealized&quot;,&quot;realized&quot;,&quot;pnl&quot;]" aggregates="{&quot;shares&quot;:&quot;last&quot;,&quot;px&quot;:&quot;last&quot;,&quot;apx&quot;:&quot;last&quot;,&quot;pnl&quot;:&quot;last&quot;,&quot;unrealized&quot;:&quot;last&quot;,&quot;realized&quot;:&quot;last&quot;,&quot;symbol&quot;:&quot;last&quot;,&quot;no&quot;:&quot;last&quot;}" settings="true" view="vertical"></perspective-viewer>
-        </div>
-        <div class="third">
-            <perspective-viewer id='three' row-pivots="[]" column-pivots="[]" columns="[&quot;no&quot;,&quot;pnl&quot;]" aggregates="{&quot;shares&quot;:&quot;last&quot;,&quot;px&quot;:&quot;last&quot;,&quot;apx&quot;:&quot;last&quot;,&quot;pnl&quot;:&quot;last&quot;,&quot;unrealized&quot;:&quot;last&quot;,&quot;realized&quot;:&quot;last&quot;,&quot;symbol&quot;:&quot;last&quot;,&quot;no&quot;:&quot;last&quot;}" view="line" class=""></perspective-viewer>
-        </div>
-    </div>
-    <script>
-    window.addEventListener('WebComponentsReady', function () {
-        var firstMove;
-        window.addEventListener('touchstart', function (e) { firstMove = true; });
-        window.addEventListener('touchmove', function (e) { if (firstMove) {e.preventDefault();firstMove = false;} });
-
-        var index = 0;
-        setInterval(function(){
-            var xhr1 = new XMLHttpRequest();
-            xhr1.open('GET', '/pnl/' + index, true);
-            xhr1.onload = function () { 
-                var jsn = JSON.parse(xhr1.response);
-                document.getElementById('one').update([jsn]); 
-                document.getElementById('two').update([jsn]); 
-                document.getElementById('three').update([jsn]); 
-                index = index + 1;
-            };
-            xhr1.send(null);
-        }, 500);
-    });
-
-    </script>
 </body>
 </html>

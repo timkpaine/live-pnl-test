@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "name": "@timkpaine/live-pnl-test",
+  "version": "0.0.1",
+  "dependencies": {
+    "@phosphor/widgets": "^1.6.0",
+    "@jpmorganchase/perspective-viewer": "^0.1.10",
+    "@jpmorganchase/perspective-viewer-highcharts": "^0.1.10",
+    "@jpmorganchase/perspective-viewer-hypergrid": "^0.1.10",
+    "es6-promise": "^4.0.5"
+  },
+  "devDependencies": {
+    "css-loader": "^0.26.1",
+    "file-loader": "^0.11.1",
+    "rimraf": "^2.5.2",
+    "style-loader": "^0.13.1",
+    "typescript": "~2.3.0",
+    "webpack": "^2.2.1"
+  },
+  "scripts": {
+    "build": "tsc && webpack",
+    "clean": "rimraf build"
+  }
+}

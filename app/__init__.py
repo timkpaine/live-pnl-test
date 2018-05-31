@@ -60,7 +60,7 @@ class pnl_helper(object):
         self._records.append({'shares': self._shares, 'px': px, 'apx': self._avg_price, 'pnl': self._pnl+self._realized, 'unrealized': self._pnl, 'realized': self._realized})
 
     def record(self, index):
-        return self._records[min(index, len(self._records))]
+        return self._records[min(index, len(self._records)-1)]
 
 
 PNLH = pnl_helper()

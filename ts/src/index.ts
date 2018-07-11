@@ -16,14 +16,48 @@ import "@jpmorganchase/perspective-viewer";
 import "@jpmorganchase/perspective-viewer-hypergrid";
 import "@jpmorganchase/perspective-viewer-highcharts";
 
+import * as io from 'socket.io-client';
+
+
 import {
   PSPWidget
 } from './psp';
 
 function main(): void {
-  let psp = new PSPWidget('SummaryGrid', 'pnl/', 500);
-  let psp2 = new PSPWidget('PnL-Bar', 'pnl/', 500);
-  let psp3 = new PSPWidget('PnL-Line', 'pnl/', 500);
+  let psp = new PSPWidget('SummaryGrid');
+  let psp2 = new PSPWidget('PnL-Bar');
+  let psp3 = new PSPWidget('PnL-Line');
+
+  let index = 0;
+  let interval = 200;
+
+  // setInterval(() => {
+  //   var xhr1 = new XMLHttpRequest();
+  //   xhr1.open('GET', '/pnl/' + index, true);
+  //   xhr1.onload = function () { 
+  //     var jsn = JSON.parse(xhr1.response);
+  //     psp.pspNode.update([jsn]);
+  //     psp2.pspNode.update([jsn]);
+  //     psp3.pspNode.update([jsn]);
+  //     index = index + 1;
+  //   }.bind(this);
+  //   xhr1.send(null);
+  // }, interval);
+
+  let socket = io.connect(window.location.href);
+  socket.on('message', (msg: any) => {
+    var jsn = JSON.parse(msg);
+    psp.pspNode.update([jsn]);
+    psp2.pspNode.update([jsn]);
+    psp3.pspNode.update([jsn]);
+    index = (index + 1) % 1000;
+  });
+
+  socket.send(index);
+  setInterval(() => {
+    socket.send(index);
+  }, interval);
+
 
   psp.pspNode.setAttribute('columns', '["shares","px","apx","pnl","unrealized","realized"]');
 

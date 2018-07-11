@@ -1,7 +1,9 @@
 import ujson
 from flask import request
+from flask_socketio import send
 
 from .app import app
+from .app import socketio
 
 
 sign = lambda x: (1, -1)[x<0]
@@ -77,3 +79,12 @@ def pnl(no):
 @app.route('/pnlall')
 def pnlall():
     return ujson.dumps(PNLH._records)
+
+
+@socketio.on('message')
+def on_message(message):
+    no = int(message)
+    rec = PNLH.record(no)
+    rec['symbol'] = '1'
+    rec['no'] = no
+    send(ujson.dumps(PNLH.record(int(no))))

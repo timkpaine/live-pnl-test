@@ -1,7 +1,6 @@
 run:  ## run server
 	python3 run.py
 
-
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 
 	find . -name "*.pyc" | xargs rm -rf 
